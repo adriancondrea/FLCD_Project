@@ -24,7 +24,6 @@ public class SymbolTable {
         return hash % size;
     }
 
-    // if the element already exists in hash table, return its position. Otherwise, add the element and return its position
 
     /**
      * if the element already belongs to the symbol table, return its position. Otherwise, add it and then return its position
