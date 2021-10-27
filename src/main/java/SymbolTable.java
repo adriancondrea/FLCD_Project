@@ -38,13 +38,11 @@ public class SymbolTable {
 
         while (hashTable[hash] != null) {
             if (hashTable[hash].equals(key)) {
-                System.out.println("Element already added on position " + hash);
                 return hash;
             }
             hash = (hash + 1) % size;
         }
         hashTable[hash] = key;
-        System.out.println("New element added on position " + hash);
         return hash;
     }
 

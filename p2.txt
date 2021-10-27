@@ -1,0 +1,16 @@
+startProgram
+<
+declare(integer, a)
+declare(integer, b) declare(integer, c) input(a)
+input(b)
+input(c) declare(integer, aux) check(a > b)
+<
+assign(aux, a) >
+else <
+assign(aux, b) >
+check(aux > c)
+<
+output("maximum number is: ", aux)
+> else <
+output("maximum number is: ", c) >
+>
