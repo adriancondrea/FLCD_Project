@@ -1,0 +1,15 @@
+startProgram
+<
+declare(string, userInput)
+declare(integer, sum)
+assign(sum, 0)
+output("enter numbers to sum them. Enter \".\" to stop the loop") loop()
+<
+input(userInput) check(userInput == ".")
+<
+breakLoop
+> else <
+> else <
+output("invalid input! Enter \".\" to exit the loop") >
+> >
+output("Sum of numbers is: ", sum) >

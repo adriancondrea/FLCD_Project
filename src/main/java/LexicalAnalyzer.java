@@ -35,14 +35,17 @@ public class LexicalAnalyzer {
     }
 
     private void processLine(String line) {
-        String[] tokens = line.trim().split(" |\t");
+        line = line.trim();
+        String[] tokens = line.split("((?=\\(|\\))|(?<=\\(|\\)))");
         for (String token : tokens) {
             if (!processToken(token)) {
                 String[] subtokens = token.split("((?=(<=)|(>=)|(==)|(!=))|(?<=(<=)|(>=)|(==)|(!=)))");
                 for (String subtoken : subtokens) {
+                    subtoken = subtoken.trim();
                     if (!processToken(subtoken)) {
-                        String[] subsubtokens = token.split("((?=\\+|-|\\*|/|%|!|<|>|\\[|]|\\(|\\)|,|\"|'|\\.)|(?<=\\+|-|\\*|/|%|!|<|>|\\[|]|\\(|\\)|,|\"|'|\\.))");
+                        String[] subsubtokens = subtoken.split("((?=\\+|-|\\*|/|%|!|<|>|\\[|]|\\(|\\)|,|'|\\.)|(?<=\\+|-|\\*|/|%|!|<|>|\\[|]|\\(|\\)|,|'|\\.))");
                         for (String subsubtoken : subsubtokens) {
+                            subsubtoken = subsubtoken.trim();
                             if (!processToken(subsubtoken)) {
                                 System.out.println("Lexical error: " + subsubtoken);
                             }
@@ -54,6 +57,9 @@ public class LexicalAnalyzer {
     }
 
     private boolean processToken(String token) {
+        if (token.length() == 0) {
+            return true;
+        }
         if (RESERVED_WORDS.contains(token) || OPERATORS.contains(token) || SEPARATORS.contains(token)) {
             addToProgramInternalForm(token, 0);
             return true;
@@ -95,7 +101,7 @@ public class LexicalAnalyzer {
         }
         for (int i = 1; i < token.length() - 1; i++) {
             char c = token.charAt(i);
-            if (!Character.isLetter(c) && !Character.isDigit(c) && c != '_' && c != ' ') {
+            if (c == '\"' && token.charAt(i - 1) != '\\') {
                 return false;
             }
         }
@@ -118,7 +124,7 @@ public class LexicalAnalyzer {
     }
 
     private boolean isIdentifier(String token) {
-        if(token.length() == 0){
+        if (token.length() == 0) {
             return false;
         }
         if (!Character.isLetter(token.charAt(0))) {
