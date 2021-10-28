@@ -1,4 +1,4 @@
-import java.util.Arrays;
+import java.util.Formatter;
 
 public class SymbolTable {
     private final String[] hashTable;
@@ -48,9 +48,13 @@ public class SymbolTable {
 
     @Override
     public String toString() {
-        return "SymbolTable{" +
-                "hashTable=" + Arrays.toString(hashTable) +
-                ", size=" + size +
-                '}';
+        Formatter formatter = new Formatter();
+        formatter.format("%-32s%-32s\n", "Key:", "Value:");
+        for (int i = 0; i < hashTable.length; i++) {
+            if (hashTable[i] != null) {
+                formatter.format("%-32s%-32s\n", i, hashTable[i]);
+            }
+        }
+        return formatter.toString();
     }
 }

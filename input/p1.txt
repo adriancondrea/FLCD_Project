@@ -1,0 +1,22 @@
+startProgram
+<
+    declare(integer, a)
+    input(a)
+    check(a <= 1)
+    <
+        output("a is not prime")
+        endProgram
+    >
+    declare(integer, d)
+    assign(d, 2)
+    loop (d * d <= a)
+    <
+        check(a % d == 0)
+        <
+            output("a is not prime")
+            breakLoop
+        >
+        assign(d, d + 1)
+    >
+    output("a is prime")
+>

@@ -1,0 +1,8 @@
+Key:                            Value:                          
+0                               "enter numbers to sum them. Enter \".\" to stop the loop"
+1                               sum                             
+2                               "Sum of numbers is: "           
+4                               "."                             
+5                               userInput                       
+8                               0                               
+9                               "invalid input! Enter \".\" to exit the loop"

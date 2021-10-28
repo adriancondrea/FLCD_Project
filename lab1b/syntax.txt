@@ -1,0 +1,39 @@
+Student: Condrea Adrian
+Lab 1b
+syntax.in
+
+program = “startProgram<” statements “>”
+
+statements = {statement} [endProgramStatement]
+
+statement = inputStatement | declarationStatement | typeCheckStatement | typeDefineStatement | 
+
+checkStatement | outputStatement | assignStatement | loopStatement
+
+endProgramStatement = “endProgram”
+
+inputStatement = “input(“ [identifier] “)”
+
+spaces = {“ “}
+
+declarationStatement = “declare(“ type “,” spaces identifier “)”
+
+type = “integer” | “boolean” | “string” | “char” | “array” | userDefinedType
+
+typeCheckStatement = “typeCheck(“ type “,” spaces identifier“)”
+
+typeDefineStatement = “typeDefine(” identifier “)<“ {declarationStatement} “>”
+
+checkStatement = “check(“ condition “)<” statements “>” [elseStatement]
+
+elseStatement = “<“ statements “>”
+
+condition = identifier | const relations identifier | const
+
+relations = “==“ | “!=“ | “<=“ | “>=“ | “<“ | “>”
+
+outputStatement = “output(“ {stringconst | identifier } “)”
+
+assignStatement = “assign(“ identifier constant | identifier “)”
+
+loopStatement = “loop(“ [condition] “)<“ {statements} [“breakLoop”] “>”
