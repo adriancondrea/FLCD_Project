@@ -40,7 +40,7 @@ public class LexicalAnalyzer {
             System.out.println("An error occurred. File " + filename + " not found!");
             e.printStackTrace();
         }
-        if(!error){
+        if (!error) {
             System.out.println("Lexical analyzer has found no errors!");
         }
     }
@@ -53,15 +53,15 @@ public class LexicalAnalyzer {
         for (String token : tokens) {
             // if it is not a valid token, further break it down
             if (!processToken(token)) {
-                // split token by <=, >=, ==, != - the compound tokens
-                String[] subtokens = token.split("((?=(<=)|(>=)|(==)|(!=))|(?<=(<=)|(>=)|(==)|(!=)))");
+                // split token by <=, >=, ==, != - the compound tokens and ,
+                String[] subtokens = token.split("((?=(<=)|(>=)|(==)|(!=)|,)|(?<=(<=)|(>=)|(==)|(!=)|,))");
                 for (String subtoken : subtokens) {
                     // remove white space
                     subtoken = subtoken.trim();
                     // if it is not a valid token, further break it down
                     if (!processToken(subtoken)) {
                         // split by +,-,*,/,%,!,<,>,[,],,,.
-                        String[] subsubtokens = subtoken.split("((?=\\+|-|\\*|/|%|!|<|>|\\[|]|,|\\.)|(?<=\\+|-|\\*|/|%|!|<|>|\\[|]|,|\\.))");
+                        String[] subsubtokens = subtoken.split("((?=\\+|-|\\*|/|%|!|<|>|\\[|]|\\.)|(?<=\\+|-|\\*|/|%|!|<|>|\\[|]|\\.))");
                         for (String subsubtoken : subsubtokens) {
                             subsubtoken = subsubtoken.trim();
                             if (!processToken(subsubtoken)) {
@@ -96,25 +96,16 @@ public class LexicalAnalyzer {
     }
 
     private boolean isNumberConstant(String token) {
-        for (int i = 0; i < token.length(); i++) {
-            if (!Character.isDigit(token.charAt(i))) {
-                return false;
-            }
-        }
-        return true;
+        String regex = "^(-?[1-9][0-9]*)|([0]+)$";
+        return token.matches(regex);
     }
 
     private boolean isArrayConstant(String token) {
-        if (token.length() < 2) {
+        String regex = "^([.*])$";
+        if (!token.matches(regex)) {
             return false;
         }
-        if (token.charAt(0) != '[' || token.charAt(token.length() - 1) != ']') {
-            return false;
-        }
-        if (token.length() == 2) {
-            // case [] - empty array
-            return true;
-        }
+
         // remove [ and ], in order to expose the elements separated by comma
         token = token.substring(1, token.length() - 1);
         // get the elements
@@ -130,51 +121,23 @@ public class LexicalAnalyzer {
 
     private boolean isStringConstant(String token) {
         // a string constant must have at least 2 characters: opening and closing "
-        if (token.length() < 2) {
-            return false;
-        }
-        if (token.charAt(0) != '"' || token.charAt(token.length() - 1) != '"') {
-            return false;
-        }
-        for (int i = 1; i < token.length() - 1; i++) {
-            char c = token.charAt(i);
-            // check that there is no unescaped " in the string that would end the string prematurely
-            if (c == '\"' && token.charAt(i - 1) != '\\') {
-                return false;
-            }
-        }
-        return true;
+        String regex = "^(\".*\")$";
+        return token.matches(regex);
     }
 
     private boolean isCharConstant(String token) {
-        if (token.length() != 3) {
-            return false;
-        }
-        if (token.charAt(0) != '\'' && token.charAt(2) != '\'') {
-            return false;
-        }
-        char c = token.charAt(1);
-        return Character.isLetter(c) || Character.isDigit(c) || c == '_' || c == ' ';
+        String regex = "^('[a-zA-Z0-9_ ]')$";
+        return token.matches(regex);
     }
 
     private boolean isBooleanConstant(String token) {
-        return token.equals("true") || token.equals("false");
+        String regex = "^(\"(true)|(false)\")$";
+        return token.matches(regex);
     }
 
     private boolean isIdentifier(String token) {
-        if (token.length() == 0) {
-            return false;
-        }
-        if (!Character.isLetter(token.charAt(0))) {
-            return false;
-        }
-        for (int i = 1; i < token.length(); i++) {
-            char c = token.charAt(i);
-            if (!Character.isLetter(c) && !Character.isDigit(c) && c != '_') {
-                return false;
-            }
-        }
-        return true;
+        String regex = "^([a-zA-Z]+[a-zA-Z0-9_]*)$";
+        return token.matches(regex);
     }
 
     private void addToProgramInternalForm(String token, int symbolTablePosition) {

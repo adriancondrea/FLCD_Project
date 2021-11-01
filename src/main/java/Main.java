@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) {
         SymbolTable symbolTable = new SymbolTable(10);
         LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer(symbolTable);
-        lexicalAnalyzer.scan("input/test.txt");
+        lexicalAnalyzer.scan("input/p1err.txt");
         writeSymbolTableToFile(symbolTable, "ST.out");
         List<Pair<String, Integer>> programInternalForm = lexicalAnalyzer.getProgramInternalForm();
         writeProgramInternalFormToFile(programInternalForm, "PIF.out");
