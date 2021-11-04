@@ -34,7 +34,8 @@ public class Main {
     private static void writeSymbolTableToFile(SymbolTable symbolTable, String filename) {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
-            writer.write(symbolTable.toString());
+            String symbolTableDocumentation = "The symbol table is implemented using hash table as data structure.\nIt has two fields: the size and an array of Strings.\nEvery key is added in the hash table based on the hash value obtained from the hash function.\nFor the hash function, I have used the sum of ascii characters % size (the basic hash function from the course)\n";
+            writer.write(String.format("%s\n%s", symbolTableDocumentation, symbolTable.toString()));
 
             writer.close();
         } catch (IOException e) {

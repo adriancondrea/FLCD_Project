@@ -25,9 +25,9 @@ public class LexicalAnalyzer {
         this.error = false;
     }
 
-    public void scan(String filename) {
+    public void scan(String filepath) {
         try {
-            File myFile = new File(filename);
+            File myFile = new File(filepath);
             Scanner myReader = new Scanner(myFile);
             int lineNumber = 0;
             while (myReader.hasNextLine()) {
@@ -37,7 +37,7 @@ public class LexicalAnalyzer {
             }
             myReader.close();
         } catch (FileNotFoundException e) {
-            System.out.println("An error occurred. File " + filename + " not found!");
+            System.out.println("An error occurred. File " + filepath + " not found!");
             e.printStackTrace();
         }
         if (!error) {
